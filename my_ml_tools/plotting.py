@@ -150,6 +150,81 @@ def interactive_decision_boundary(X, y, model, cmap_options=None):
 
     display(ui, out)
 
+def plot_confusion_matrix(y_true, y_pred, classes=None, normalize=False, cmap='Blues', title='Confusion Matrix', figsize=(10, 7), annot=True, fmt='.2f'):
+    """
+    Plots a confusion matrix with enhancements for better visualization.
+
+    Parameters:
+    y_true : array-like of shape (n_samples,)
+        True labels.
+    y_pred : array-like of shape (n_samples,)
+        Predicted labels.
+    classes : list of str, optional
+        Class names for labels. If not provided, unique labels will be used.
+    normalize : bool, optional
+        Whether to normalize the confusion matrix.
+    cmap : str, optional
+        Colormap for the plot.
+    title : str, optional
+        Title for the plot.
+    figsize : tuple, optional
+        Size of the figure.
+    annot : bool, optional
+        Whether to annotate the cells with the counts or proportions.
+    fmt : str, optional
+        String format for the annotations.
+
+    Returns:
+    None
+    """
+    from sklearn.utils.multiclass import unique_labels
+    from sklearn.metrics import confusion_matrix
+    import seaborn as sns
+    # Compute confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+    # Use unique labels if classes are not provided
+    if classes is None:
+        classes = unique_labels(y_true, y_pred)
+
+    # Create the plot
+    plt.figure(figsize=figsize)
+    sns.heatmap(cm, annot=annot, fmt=fmt if normalize else 'd', cmap=cmap, xticklabels=classes, yticklabels=classes)
+
+    # Add title and labels
+    plt.title(title)
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+
+    # Add color bar
+    # plt.colorbar()
+
+    # Adjust layout for better fit
+    plt.tight_layout()
+    plt.show()
+
+# Example usage
+if __name__ == "__main__":
+    from sklearn.datasets import load_iris, make_blobs
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestClassifier
+
+    # Load data
+    iris = load_iris()
+    X, y = iris.data, iris.target
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+    # Train a model
+    model = RandomForestClassifier()
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+
+    # Plot the confusion matrix
+    plot_confusion_matrix(y_test, y_pred, classes=iris.target_names, normalize=False, title='Normalized Confusion Matrix')
+
+
 # Example usage:
 # Assuming X, y, and a fitted model are available:
 # interactive_decision_boundary(X, y, model)

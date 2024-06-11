@@ -5,7 +5,7 @@ import ipywidgets as widgets
 from IPython.display import display
 from ipywidgets import interact
 
-def generate_meshgrid(X, resolution=100):
+def generate_meshgrid(X: np.ndarray, resolution: int = 100) -> list[np.ndarray,np.ndarray]:
     """Generates a mesh grid for plotting decision boundaries."""
     xmin, xmax = X[:, 0].min() - 0.3, X[:, 0].max() + 0.3
     ymin, ymax = X[:, 1].min() - 0.3, X[:, 1].max() + 0.3
@@ -14,7 +14,7 @@ def generate_meshgrid(X, resolution=100):
         np.linspace(ymin, ymax, resolution)
     )
 
-def plot_decision_boundary_common(X, y, pred, cmap, alpha, figsize, labels, markers, title, xlabel, ylabel, legend_loc, confidence=None):
+def plot_decision_boundary_common(X, y, pred, cmap, alpha, figsize, labels, markers, title, xlabel, ylabel, legend_loc, confidence=None) -> None:
     """Common plotting function for decision boundaries."""
     plt.figure(figsize=figsize)
     plt.contourf(*pred, cmap=cmap, alpha=alpha)
@@ -36,7 +36,7 @@ def plot_decision_boundary_common(X, y, pred, cmap, alpha, figsize, labels, mark
 
 def plot_decision_boundary(X, y, model, *, cmap='turbo', alpha=0.5, figsize=(10, 7), labels=[], markers=['o', 's', 'D', '^', 'v'],
                            title='Decision Boundary', xlabel='Feature 1', ylabel='Feature 2', legend_loc='best', resolution=100,
-                           show=True, confidence=None, verbose=False):
+                           show=True, confidence=None, verbose=False) -> None:
     """Plots the decision boundary of a given model."""
     mesh_x, mesh_y = generate_meshgrid(X, resolution)
     x_stacked = np.c_[mesh_x.ravel(), mesh_y.ravel()]
@@ -50,7 +50,7 @@ def plot_decision_boundary(X, y, model, *, cmap='turbo', alpha=0.5, figsize=(10,
 
 def plot_decision_boundary_torch(X, y, model, *, cmap='turbo', alpha=0.5, figsize=(10, 7), labels=[], markers=['o', 's', 'D', '^', 'v'],
                                  title='Decision Boundary', xlabel='Feature 1', ylabel='Feature 2', legend_loc='best', resolution=100,
-                                 show=True, confidence=None, verbose=False):
+                                 show=True, confidence=None, verbose=False) -> None:
     """Plots the decision boundary of a given PyTorch model."""
     import torch
     model = model.cpu()
@@ -69,7 +69,7 @@ def plot_decision_boundary_torch(X, y, model, *, cmap='turbo', alpha=0.5, figsiz
 
 def plot_decision_boundary_tensorflow(X, y, model, *, cmap='turbo', alpha=0.5, figsize=(10, 7), labels=[], markers=['o', 's', 'D', '^', 'v'],
                                       title='Decision Boundary', xlabel='Feature 1', ylabel='Feature 2', legend_loc='best', resolution=100,
-                                      show=True, confidence=None, verbose=False):
+                                      show=True, confidence=None, verbose=False) -> None:
     """Plots the decision boundary of a given TensorFlow model."""
     mesh_x, mesh_y = generate_meshgrid(X, resolution)
     x_stacked = np.c_[mesh_x.ravel(), mesh_y.ravel()]
@@ -83,7 +83,7 @@ def plot_decision_boundary_tensorflow(X, y, model, *, cmap='turbo', alpha=0.5, f
 
 def plot_decision_boundary_models(X, y, model_list, *, cmap='turbo', alpha=0.5, figsize=(16, 7), labels=[], markers=['o', 's', 'D', '^', 'v'],
                                   title='Decision Boundary', xlabel='Feature 1', ylabel='Feature 2', legend_loc='lower right', resolution=100,
-                                  save_path=None, show=True, confidence=None, verbose=False):
+                                  save_path=None, show=True, confidence=None, verbose=False) -> None:
     """Plots the decision boundaries of a list of models."""
     from matplotlib.gridspec import GridSpec
 
@@ -125,7 +125,7 @@ def plot_decision_boundary_models(X, y, model_list, *, cmap='turbo', alpha=0.5, 
 
 
 
-def interactive_decision_boundary(X, y, model, cmap_options=None):
+def interactive_decision_boundary(X, y, model, cmap_options=None) -> None:
     """Creates interactive widgets to plot decision boundaries."""
     cmap_options = cmap_options or ['turbo', 'viridis', 'plasma', 'inferno', 'magma', 'cividis','jet','flag', 'prism', 'ocean', 'gist_earth', 'terrain',
                                     'gist_stern', 'gnuplot', 'gnuplot2', 'CMRmap', 'cubehelix', 'brg', 'gist_rainbow', 'rainbow', 'nipy_spectral', 'gist_ncar']
@@ -148,7 +148,7 @@ def interactive_decision_boundary(X, y, model, cmap_options=None):
 
     display(ui, out)
 
-def plot_confusion_matrix(y_true, y_pred, classes=None, normalize=False, cmap='Blues', title='Confusion Matrix', figsize=(10, 7), annot=True, fmt='.2f'):
+def plot_confusion_matrix(y_true, y_pred, classes=None, normalize=False, cmap='Blues', title='Confusion Matrix', figsize=(10, 7), annot=True, fmt='.2f') -> None:
     """
     Plots a confusion matrix with enhancements for better visualization.
 

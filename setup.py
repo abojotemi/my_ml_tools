@@ -9,11 +9,12 @@ setup(
     install_requires=[
         'numpy',
         'matplotlib',
-        'ipywidgets'
+        'ipywidgets',
+        'scikit-learn'
     ],
     author='Ab-ojo Abraham',
     author_email='abojotemi@gmail.com',
-    description='A package for plotting decision boundaries in machine learning',
+    description='A package for plotting decision boundaries and confusion matrix in machine learning',
     url='https://github.com/abojotemi/my_ml_tools',
 )
 

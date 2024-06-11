@@ -23,7 +23,7 @@ def plot_decision_boundary_common(X, y, pred, cmap, alpha, figsize, labels, mark
     colors = cm.get_cmap(cmap)(np.linspace(0, 1, len(classes)))
     
     for i, cls in enumerate(classes):
-        plt.scatter(X[y == cls, 0], X[y == cls, 1], color=colors[i], label=labels[cls] if labels else cls, marker=markers[i % len(markers)])
+        plt.scatter(X[y == cls, 0], X[y == cls, 1], color=colors[i], label=labels[int(cls)] if labels else cls, marker=markers[i % len(markers)])
     
     if confidence is not None:
         plt.contour(*pred, levels=confidence, colors='k', linestyles='dashed')
@@ -46,7 +46,7 @@ def plot_decision_boundary(X, y, model, *, cmap='turbo', alpha=0.5, figsize=(10,
         print(f"Mesh grid created with resolution {resolution}x{resolution}.")
     
     if show:
-        plot_decision_boundary_common(X, y, (mesh_x, mesh_y, pred), cmap, alpha, figsize, labels, markers, title, xlabel, ylabel, legend_loc, confidence)
+        plot_decision_boundary_common(X, y.squeeze(), (mesh_x, mesh_y, pred), cmap, alpha, figsize, labels, markers, title, xlabel, ylabel, legend_loc, confidence)
 
 def plot_decision_boundary_torch(X, y, model, *, cmap='turbo', alpha=0.5, figsize=(10, 7), labels=[], markers=['o', 's', 'D', '^', 'v'],
                                  title='Decision Boundary', xlabel='Feature 1', ylabel='Feature 2', legend_loc='best', resolution=100,
@@ -55,7 +55,7 @@ def plot_decision_boundary_torch(X, y, model, *, cmap='turbo', alpha=0.5, figsiz
     import torch
     model = model.cpu()
     X = X.cpu().numpy()
-    y = y.cpu().numpy()
+    y = y.cpu().numpy().squeeze()
     mesh_x, mesh_y = generate_meshgrid(X, resolution)
     x_stacked = np.c_[mesh_x.ravel(), mesh_y.ravel()]
     tensor_x_stacked = torch.tensor(x_stacked).float()

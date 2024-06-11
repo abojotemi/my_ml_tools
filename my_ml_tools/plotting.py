@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import colormaps as cm
+import ipywidgets as widgets
+from IPython.display import display
+from ipywidgets import interact
 
 def generate_meshgrid(X, resolution=100):
     """Generates a mesh grid for plotting decision boundaries."""
@@ -120,12 +123,7 @@ def plot_decision_boundary_models(X, y, model_list, *, cmap='turbo', alpha=0.5, 
     if show:
         plt.show()
 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib import colormaps as cm
-import ipywidgets as widgets
-from IPython.display import display
-from ipywidgets import interact
+
 
 def interactive_decision_boundary(X, y, model, cmap_options=None):
     """Creates interactive widgets to plot decision boundaries."""
@@ -204,27 +202,3 @@ def plot_confusion_matrix(y_true, y_pred, classes=None, normalize=False, cmap='B
     # Adjust layout for better fit
     plt.tight_layout()
     plt.show()
-
-# Example usage
-if __name__ == "__main__":
-    from sklearn.datasets import load_iris, make_blobs
-    from sklearn.model_selection import train_test_split
-    from sklearn.ensemble import RandomForestClassifier
-
-    # Load data
-    iris = load_iris()
-    X, y = iris.data, iris.target
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-    # Train a model
-    model = RandomForestClassifier()
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-
-    # Plot the confusion matrix
-    plot_confusion_matrix(y_test, y_pred, classes=iris.target_names, normalize=False, title='Normalized Confusion Matrix')
-
-
-# Example usage:
-# Assuming X, y, and a fitted model are available:
-# interactive_decision_boundary(X, y, model)
